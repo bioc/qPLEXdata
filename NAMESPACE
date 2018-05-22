@@ -1,0 +1,5 @@
+import("knitr")
+import("dplyr")
+importFrom("utils", "data", "packageVersion")
+importFrom("MSnbase","combine")
+exportPattern(".")
