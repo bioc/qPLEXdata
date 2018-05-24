@@ -157,7 +157,7 @@ features <- unique(features)
 features$Sequences <- as.character(features$Sequences)
 features$Accessions <- as.character(features$Accessions)
 counts <- features %>% count(Accessions) %>% 
-  rename(Protein = Accessions, Count = n)
+  rename(Count = n)
 
 ##### create combine MSnSet object
 
@@ -177,9 +177,9 @@ sampleNames(MSnset_comb) <- pData(MSnset_comb)$SampleName
 pData(MSnset_comb)$BioRep <- c(rep(1,4),rep(2,4),c(1,2),rep(3,4),rep(4,4),c(3,4),
                            rep(5,4),rep(6,4),c(5,6))
 fData(MSnset_comb) <- fData(MSnset_comb)[,c(1:4)]
-colnames(fData(MSnset_comb)) <- c("Protein","Gene","Description",
+colnames(fData(MSnset_comb)) <- c("Accessions","Gene","Description",
                                             "GeneSymbol")
-ind <- match(fData(MSnset_comb)$Protein,counts$Protein)
+ind <- match(fData(MSnset_comb)$Accessions, counts$Accessions)
 fData(MSnset_comb)$Count <- counts$Count[ind]
 
 ### create separate MSnSet for IgG comparision
@@ -202,7 +202,7 @@ results <- getContrastResults(diffstats=diffstats, contrast=contrasts,
 ### create subset of protein filtering non-specific IgG
 ind <- which(results$adj.P.Val < 0.01 & results$log2FC > 1)
 diff_IgG <- results[ind,]
-ind <- match(diff_IgG$Protein,fData(MSnset_comb)$Protein)
+ind <- match(diff_IgG$Accessions, fData(MSnset_comb)$Accessions)
 MSnset_subset <- MSnset_comb[ind]
 IgG_ind <- which(pData(MSnset_subset)$SampleGroup == "IgG")
 
@@ -265,7 +265,7 @@ features <- unique(features)
 features$Sequences <- as.character(features$Sequences)
 features$Accessions <- as.character(features$Accessions)
 counts <- features %>% count(Accessions) %>% 
-  rename(Protein = Accessions, Count = n)
+  rename(Count = n)
 
 ##### create combine MSnSet object
 
@@ -279,9 +279,9 @@ tokeep <- which(complete.cases(fData(MSnset_comb))==TRUE)
 MSnset_comb <- MSnset_comb[tokeep,]
 sampleNames(MSnset_comb) <- pData(MSnset_comb)$SampleName
 fData(MSnset_comb) <- fData(MSnset_comb)[,c(1:4)]
-colnames(fData(MSnset_comb)) <- c("Protein","Gene","Description",
+colnames(fData(MSnset_comb)) <- c("Accessions","Gene","Description",
                                             "GeneSymbol")
-ind <- match(fData(MSnset_comb)$Protein,counts$Protein)
+ind <- match(fData(MSnset_comb)$Accessions,counts$Accessions)
 fData(MSnset_comb)$Count <- counts$Count[ind]
 
 ## Normalization
@@ -352,7 +352,7 @@ exprs(MSnset_data)[is.na(exprs(MSnset_data))] <- 0
 exprs(MSnset_data) <- exprs(MSnset_data)+0.01
 
 ## Normalization
-MSnset_norm <- groupScaling(MSnset_data, median, Grp="SampleGroup")
+MSnset_norm <- groupScaling(MSnset_data, median, groupingColumn="SampleGroup")
 
 ## Summation of peptide to protein intensity
 MSnset_Pnorm <- summarizeIntensities(MSnset_norm, sum, human_anno)
@@ -381,7 +381,7 @@ exprs(MSnset_data)[is.na(exprs(MSnset_data))] <- 0
 exprs(MSnset_data) <- exprs(MSnset_data)+0.01
 
 ## Normalization
-MSnset_norm <- groupScaling(MSnset_data, median, Grp="SampleGroup")
+MSnset_norm <- groupScaling(MSnset_data, median, groupingColumn="SampleGroup")
 
 ## Summation of peptide to protein intensity
 MSnset_Pnorm <- summarizeIntensities(MSnset_norm, sum, human_anno)
@@ -409,7 +409,7 @@ exprs(MSnset_data)[is.na(exprs(MSnset_data))] <- 0
 exprs(MSnset_data) <- exprs(MSnset_data)+0.01
 
 ## Normalization
-MSnset_norm <- groupScaling(MSnset_data, median, Grp="SampleGroup")
+MSnset_norm <- groupScaling(MSnset_data, median, groupingColumn="SampleGroup")
 
 ## Summation of peptide to protein intensity
 MSnset_Pnorm <- summarizeIntensities(MSnset_norm, sum, human_anno)
@@ -437,7 +437,7 @@ exprs(MSnset_data)[is.na(exprs(MSnset_data))] <- 0
 exprs(MSnset_data) <- exprs(MSnset_data)+0.01
 
 ## Normalization
-MSnset_norm <- groupScaling(MSnset_data, median, Grp="SampleGroup")
+MSnset_norm <- groupScaling(MSnset_data, median, groupingColumn="SampleGroup")
 
 ## Summation of peptide to protein intensity
 MSnset_Pnorm <- summarizeIntensities(MSnset_norm, sum, human_anno)
