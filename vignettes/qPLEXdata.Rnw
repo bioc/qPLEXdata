@@ -41,9 +41,9 @@ The report outlines the steps for the statistical analysis of the datasets gener
 
 \section{Usage}
 <<lbsload,message=FALSE,cache=TRUE>>=
-suppressWarnings(library(qPLEXdata))
 library(dplyr)
 suppressWarnings(library(qPLEXanalyzer))
+suppressWarnings(library(qPLEXdata))
 data(human_anno)
 @
 
