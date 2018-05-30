@@ -1,5 +1,6 @@
 import("knitr")
 import("dplyr")
+import("qPLEXanalyzer")
 importFrom("utils", "data", "packageVersion")
 importFrom("MSnbase","combine")
 exportPattern(".")
