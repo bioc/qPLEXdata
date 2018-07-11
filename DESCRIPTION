@@ -1,7 +1,7 @@
 Package: qPLEXdata
 Type: Package
 Title: Data accompanying qPLEXanalyzer package
-Version: 0.99.1
+Version: 0.99.2
 Date: 2018-05-11
 Authors@R: person("Kamal Kishore", "Developer",
                   email = "kamal.fartiyal84@gmail.com",
