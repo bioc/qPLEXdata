@@ -113,121 +113,121 @@ A linear regression method was applied on proteins (of this dataset) that were i
 
 <<exp3_OHT_ESR1,message=FALSE,cache=TRUE,fig.asp=0.7>>=
 ## load data
-data(exp3_OHT_ESR1)
+#data(exp3_OHT_ESR1)
 
 ## create MSnSet object
-MSnset_data1 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX1,
-                                metadata=exp3_OHT_ESR1$metadata_qPLEX1,
-                                indExpData=c(7:16),Sequences=2,Accessions=6)
-pData(MSnset_data1)$Run <- 1
-MSnset_data2 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX2,
-                                metadata=exp3_OHT_ESR1$metadata_qPLEX2,
-                                indExpData=c(7:16),Sequences=2,Accessions=6)
-pData(MSnset_data2)$Run <- 2
-MSnset_data3 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX3,
-                                metadata=exp3_OHT_ESR1$metadata_qPLEX3,
-                                indExpData=c(7:16),Sequences=2,Accessions=6)
-pData(MSnset_data3)$Run <- 3
+#MSnset_data1 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX1,
+#                                metadata=exp3_OHT_ESR1$metadata_qPLEX1,
+#                                indExpData=c(7:16),Sequences=2,Accessions=6)
+#pData(MSnset_data1)$Run <- 1
+#MSnset_data2 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX2,
+#                                metadata=exp3_OHT_ESR1$metadata_qPLEX2,
+#                                indExpData=c(7:16),Sequences=2,Accessions=6)
+#pData(MSnset_data2)$Run <- 2
+#MSnset_data3 <- convertToMSnset(exp3_OHT_ESR1$intensities_qPLEX3,
+#                                metadata=exp3_OHT_ESR1$metadata_qPLEX3,
+#                                indExpData=c(7:16),Sequences=2,Accessions=6)
+#pData(MSnset_data3)$Run <- 3
 
 ## Summation of peptide to protein intensity
-MSnset_P1 <- summarizeIntensities(MSnset_data1, sum, human_anno)
-MSnset_P2 <- summarizeIntensities(MSnset_data2, sum, human_anno)
-MSnset_P3 <- summarizeIntensities(MSnset_data3, sum, human_anno)
+#MSnset_P1 <- summarizeIntensities(MSnset_data1, sum, human_anno)
+#MSnset_P2 <- summarizeIntensities(MSnset_data2, sum, human_anno)
+#MSnset_P3 <- summarizeIntensities(MSnset_data3, sum, human_anno)
 
 ## Normalization
-MSnset_P1 <- rowScaling(MSnset_P1,mean)
-MSnset_P2 <- rowScaling(MSnset_P2,mean)
-MSnset_P3 <- rowScaling(MSnset_P3,mean)
+#MSnset_P1 <- rowScaling(MSnset_P1,mean)
+#MSnset_P2 <- rowScaling(MSnset_P2,mean)
+#MSnset_P3 <- rowScaling(MSnset_P3,mean)
 
 ###### Compute common unique peptides
-features1 <- fData(MSnset_data1)
-features1 <- as.data.frame(features1[, c("Sequences", 
-                                       "Accessions")],
-                           stringsAsFactors = FALSE)
-features2 <- fData(MSnset_data2)
-features2 <- as.data.frame(features2[, c("Sequences", 
-                                         "Accessions")],
-                           stringsAsFactors = FALSE)
-features3 <- fData(MSnset_data3)
-features3 <- as.data.frame(features3[, c("Sequences", 
-                                         "Accessions")],
-                           stringsAsFactors = FALSE)
-features <- rbind(features1,features2,features3)
-features <- unique(features)
-features$Sequences <- as.character(features$Sequences)
-features$Accessions <- as.character(features$Accessions)
-counts <- features %>% count(Accessions) %>% 
-  rename(Count = n)
+#features1 <- fData(MSnset_data1)
+#features1 <- as.data.frame(features1[, c("Sequences", 
+#                                       "Accessions")],
+#                           stringsAsFactors = FALSE)
+#features2 <- fData(MSnset_data2)
+#features2 <- as.data.frame(features2[, c("Sequences", 
+#                                         "Accessions")],
+#                           stringsAsFactors = FALSE)
+#features3 <- fData(MSnset_data3)
+#features3 <- as.data.frame(features3[, c("Sequences", 
+#                                         "Accessions")],
+#                           stringsAsFactors = FALSE)
+#features <- rbind(features1,features2,features3)
+#features <- unique(features)
+#features$Sequences <- as.character(features$Sequences)
+#features$Accessions <- as.character(features$Accessions)
+#counts <- features %>% count(Accessions) %>% 
+#  rename(Count = n)
 
 ##### create combine MSnSet object
 
-MSnset_P1 <- updateFvarLabels(MSnset_P1)
-MSnset_P2 <- updateFvarLabels(MSnset_P2)
-MSnset_P3 <- updateFvarLabels(MSnset_P3)
+#MSnset_P1 <- updateFvarLabels(MSnset_P1)
+#MSnset_P2 <- updateFvarLabels(MSnset_P2)
+#MSnset_P3 <- updateFvarLabels(MSnset_P3)
 
-MSnset_P1 <- updateSampleNames(MSnset_P1)
-MSnset_P2 <- updateSampleNames(MSnset_P2)
-MSnset_P3 <- updateSampleNames(MSnset_P3)
+#MSnset_P1 <- updateSampleNames(MSnset_P1)
+#MSnset_P2 <- updateSampleNames(MSnset_P2)
+#MSnset_P3 <- updateSampleNames(MSnset_P3)
 
-suppressWarnings(MSnset_comb <- combine(MSnset_P1, MSnset_P2, MSnset_P3))
-tokeep <- which(complete.cases(fData(MSnset_comb))==TRUE)
-MSnset_comb <- MSnset_comb[tokeep,]
-sampleNames(MSnset_comb) <- pData(MSnset_comb)$SampleName
+#suppressWarnings(MSnset_comb <- combine(MSnset_P1, MSnset_P2, MSnset_P3))
+#tokeep <- which(complete.cases(fData(MSnset_comb))==TRUE)
+#MSnset_comb <- MSnset_comb[tokeep,]
+#sampleNames(MSnset_comb) <- pData(MSnset_comb)$SampleName
 
-pData(MSnset_comb)$BioRep <- c(rep(1,4),rep(2,4),c(1,2),rep(3,4),rep(4,4),c(3,4),
-                           rep(5,4),rep(6,4),c(5,6))
-fData(MSnset_comb) <- fData(MSnset_comb)[,c(1:4)]
-colnames(fData(MSnset_comb)) <- c("Accessions","Gene","Description",
-                                            "GeneSymbol")
-ind <- match(fData(MSnset_comb)$Accessions, counts$Accessions)
-fData(MSnset_comb)$Count <- counts$Count[ind]
+#pData(MSnset_comb)$BioRep <- c(rep(1,4),rep(2,4),c(1,2),rep(3,4),rep(4,4),c(3,4),
+#                           rep(5,4),rep(6,4),c(5,6))
+#fData(MSnset_comb) <- fData(MSnset_comb)[,c(1:4)]
+#colnames(fData(MSnset_comb)) <- c("Accessions","Gene","Description",
+#                                            "GeneSymbol")
+#ind <- match(fData(MSnset_comb)$Accessions, counts$Accessions)
+#fData(MSnset_comb)$Count <- counts$Count[ind]
 
 ### create separate MSnSet for IgG comparision
-pheno <- pData(MSnset_comb)
-pheno$SampleGroup <- c(rep(c(rep("Exp",8),rep("IgG",2)),3))
-pheno$SampleGroup <- factor(pheno$SampleGroup)
-MSnset_IgG <- MSnset_comb
-pData(MSnset_IgG) <- pheno
+#pheno <- pData(MSnset_comb)
+#pheno$SampleGroup <- c(rep(c(rep("Exp",8),rep("IgG",2)),3))
+#pheno$SampleGroup <- factor(pheno$SampleGroup)
+#MSnset_IgG <- MSnset_comb
+#pData(MSnset_IgG) <- pheno
 
 ### Differential analysis to find ER specific interactors
-contrasts <- c(
-  Exp_vs_IgG = "Exp - IgG"
-)
+#contrasts <- c(
+#  Exp_vs_IgG = "Exp - IgG"
+#)
 
-diffstats <- computeDiffStats(MSnSetObj=MSnset_IgG, contrasts=contrasts, 
-                              transform = FALSE)
-results <- getContrastResults(diffstats=diffstats, contrast=contrasts, 
-                              transform = FALSE)
+#diffstats <- computeDiffStats(MSnSetObj=MSnset_IgG, contrasts=contrasts, 
+#                              transform = FALSE)
+#results <- getContrastResults(diffstats=diffstats, contrast=contrasts, 
+#                              transform = FALSE)
 
 ### create subset of protein filtering non-specific IgG
-ind <- which(results$adj.P.Val < 0.01 & results$log2FC > 1)
-diff_IgG <- results[ind,]
-ind <- match(diff_IgG$Accessions, fData(MSnset_comb)$Accessions)
-MSnset_subset <- MSnset_comb[ind]
-IgG_ind <- which(pData(MSnset_subset)$SampleGroup == "IgG")
+#ind <- which(results$adj.P.Val < 0.01 & results$log2FC > 1)
+#diff_IgG <- results[ind,]
+#ind <- match(diff_IgG$Accessions, fData(MSnset_comb)$Accessions)
+#MSnset_subset <- MSnset_comb[ind]
+#IgG_ind <- which(pData(MSnset_subset)$SampleGroup == "IgG")
 
 ### perform regression analysis on dataset
-MSnset_reg <- regressIntensity(MSnset_subset, controlInd=IgG_ind, ProteinId="P03372")
+#MSnset_reg <- regressIntensity(MSnset_subset, controlInd=IgG_ind, ProteinId="P03372")
 
 ### Differential analysis
-contrasts <- c(
-  tam.2h_vs_vehicle = "tam.2h - vehicle",
-  tam.6h_vs_vehicle = "tam.6h - vehicle",
-  tam.24h_vs_vehicle = "tam.24h - vehicle"
-)
+#contrasts <- c(
+#  tam.2h_vs_vehicle = "tam.2h - vehicle",
+#  tam.6h_vs_vehicle = "tam.6h - vehicle",
+#  tam.24h_vs_vehicle = "tam.24h - vehicle"
+#)
 
-suppressWarnings(diffstats <- computeDiffStats(MSnSetObj=MSnset_reg, contrasts=contrasts, 
-                              transform = FALSE))
+#suppressWarnings(diffstats <- computeDiffStats(MSnSetObj=MSnset_reg, contrasts=contrasts, 
+#                              transform = FALSE))
 
-diffexp1 <- getContrastResults(diffstats=diffstats, contrast=contrasts[1], 
-                              transform = FALSE)
-diffexp1 <- diffexp1[which(diffexp1$adj.P.Val < 0.05 & abs(diffexp1$log2FC) > 0.5),]
-diffexp2 <- getContrastResults(diffstats=diffstats, contrast=contrasts[2], 
-                              transform = FALSE)
-diffexp2 <- diffexp2[which(diffexp2$adj.P.Val < 0.05 & abs(diffexp2$log2FC) > 0.5),]
-diffexp3 <- getContrastResults(diffstats=diffstats, contrast=contrasts[3], 
-                              transform = FALSE)
-diffexp3 <- diffexp3[which(diffexp3$adj.P.Val < 0.05 & abs(diffexp3$log2FC) > 0.5),]
+#diffexp1 <- getContrastResults(diffstats=diffstats, contrast=contrasts[1], 
+#                              transform = FALSE)
+#diffexp1 <- diffexp1[which(diffexp1$adj.P.Val < 0.05 & abs(diffexp1$log2FC) > 0.5),]
+#diffexp2 <- getContrastResults(diffstats=diffstats, contrast=contrasts[2], 
+#                              transform = FALSE)
+#diffexp2 <- diffexp2[which(diffexp2$adj.P.Val < 0.05 & abs(diffexp2$log2FC) > 0.5),]
+#diffexp3 <- getContrastResults(diffstats=diffstats, contrast=contrasts[3], 
+#                              transform = FALSE)
+#diffexp3 <- diffexp3[which(diffexp3$adj.P.Val < 0.05 & abs(diffexp3$log2FC) > 0.5),]
 @
 
 \section{Experiment 4: Total proteome upon OHT treatment}
