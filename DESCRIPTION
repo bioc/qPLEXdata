@@ -1,8 +1,8 @@
 Package: qPLEXdata
 Type: Package
 Title: Data accompanying qPLEXanalyzer package
-Version: 1.1.1
-Date: 2018-05-11
+Version: 1.0.0
+Date: 2018-11-14
 Authors@R: person("Kamal Kishore", "Developer",
                   email = "kamal.fartiyal84@gmail.com",
                   role = c("aut", "cre"))
