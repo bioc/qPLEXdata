@@ -1,14 +1,15 @@
 Package: qPLEXdata
 Type: Package
 Title: Data accompanying qPLEXanalyzer package
-Version: 1.19.0
-Date: 2018-11-14
+Version: 1.19.1
+Date: 2023-07-10
 Authors@R: person("Kamal Kishore", "Developer",
                   email = "kamal.fartiyal84@gmail.com",
                   role = c("aut", "cre"))
 Description: qPLEX-RIME and Full proteome TMT mass spectrometry datasets.
 Depends: R (>= 3.5), qPLEXanalyzer
 Imports: utils, knitr, MSnbase, dplyr
+Suggests: statmod 
 VignetteBuilder: knitr
 License: GPL-2
 biocViews: ExperimentData, MassSpectrometryData, Proteome
