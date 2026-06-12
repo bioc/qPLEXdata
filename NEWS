@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.31.2
+-------------------------
+ o Converted the vignette from Sweave/PDF (qPLEXdata.Rnw) to R Markdown/HTML
+   (qPLEXdata.Rmd) using BiocStyle, removing the LaTeX build dependency.
 CHANGES IN VERSION 1.31.1
 -------------------------
  o Fixed vignette build error: pass the contrast name (names(contrasts))
